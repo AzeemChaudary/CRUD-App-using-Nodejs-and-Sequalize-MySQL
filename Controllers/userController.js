@@ -1,5 +1,5 @@
 // controllers/userController.js
-const { User } = require('../Model/user.js');
+const  User  = require('../Model/user.js');
 
 const getUsers= async (req, res) => {
   try {
@@ -29,7 +29,7 @@ const createUser = async (req, res) => {
   const { username, password, token } = req.body;
   try {
     const user = await User.create({ username, password, token });
-    res.json(user);
+    res.json({user , message:"User Created Successfully"});
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -48,7 +48,7 @@ const updateUser = async (req, res) => {
     user.password = password;
     user.token = token;
     await user.save();
-    res.json(user);
+    res.json({user , message :"User Updated Successfully"});
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal Server Error' });

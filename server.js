@@ -6,9 +6,9 @@ const userRoutes = require('./Routes/userRoutes.js');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use("api" , userRoutes);
+app.use("/api" , userRoutes);
 
-const port = 3000;
+const port = 8000;
 
 const db = require('./Model/user.js');
 
