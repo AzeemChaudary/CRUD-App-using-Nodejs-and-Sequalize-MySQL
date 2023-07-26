@@ -1,4 +1,4 @@
-// routes/userRoutes.js
+
 const express = require('express');
 const router = express.Router();
 const {getUsers ,  getUser , createUser , updateUser , deleteUser , forgetPassword , resetPassword } = require('../Controllers/userController.js');
