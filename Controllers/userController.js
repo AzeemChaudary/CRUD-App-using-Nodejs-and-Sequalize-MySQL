@@ -70,4 +70,46 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports={ getUsers ,  getUser , createUser , updateUser , deleteUser }
+const { v4: uuidv4 } = require('uuid'); // Import uuid to generate reset token
+
+
+const forgetPassword = async (req, res) => {
+  const { username } = req.body;
+  try {
+    const user = await User.findOne({ where: { username } });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const resetToken = uuidv4();
+
+    await user.update({ resetToken });
+
+    res.json({ resetToken }); 
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+const resetPassword = async (req, res) => {
+  const { resetToken, password } = req.body;
+  try {
+    
+    const user = await User.findOne({ where: { resetToken } });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found or invalid reset token' });
+    }
+
+    
+    user.password = password;
+    user.resetToken = null; 
+    await user.save();
+
+    res.json({ message: 'Password reset successful' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+module.exports={ getUsers ,  getUser , createUser , updateUser , deleteUser , forgetPassword , resetPassword}
