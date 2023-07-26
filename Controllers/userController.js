@@ -70,7 +70,7 @@ const deleteUser = async (req, res) => {
   }
 };
 
-const { v4: uuidv4 } = require('uuid'); // Import uuid to generate reset token
+const { v4: uuidv4 } = require('uuid'); 
 
 
 const forgetPassword = async (req, res) => {
