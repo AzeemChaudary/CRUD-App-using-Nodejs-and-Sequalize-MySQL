@@ -70,9 +70,8 @@ const deleteUser = async (req, res) => {
   }
 };
 
-const { v4: uuidv4 } = require('uuid'); // Import uuid to generate reset token
 
-
+const otpGenerator = require('otp-generator');
 const forgetPassword = async (req, res) => {
   const { username } = req.body;
   try {
@@ -81,16 +80,19 @@ const forgetPassword = async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    const resetToken = uuidv4();
+    const otp = otpGenerator.generate(6, { digits: true, alphabets: false, upperCase: false, specialChars: false });
 
-    await user.update({ resetToken });
+    await user.update({ resetToken: otp });
 
-    res.json({ resetToken }); 
+   // Send the OTP to the user's email address 
+
+    res.json({ message: 'OTP generated and sent to user'  , otp});
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
 const resetPassword = async (req, res) => {
   const { resetToken, password } = req.body;
   try {
