@@ -3,13 +3,7 @@ const { DataTypes } = require('sequelize');
 const {sequelize} = require('../Database/index.js');
 
 const User = sequelize.define('User', {
-  id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    primaryKey: true,   
-    autoIncrement: true,
-    unique: true,
-  },
+  
   username: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -18,13 +12,14 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  token: {
+  email: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
+    primaryKey: true, 
   },
-  resetToken: { 
+  resetToken: {
     type: DataTypes.STRING,
-    allowNull: true,
   },
 });
 
